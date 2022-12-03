@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -20,3 +21,28 @@ class TitleDescriptionModelMixin(models.Model):
 class Measure(TitleDescriptionModelMixin, DataTimeModelMixin):
     def __str__(self):
         return f'{self.title}'
+
+
+class Place(TitleDescriptionModelMixin, DataTimeModelMixin):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+
+class Sensor(TitleDescriptionModelMixin, DataTimeModelMixin):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    place = models.ForeignKey(to=Place, on_delete=models.SET_NULL, blank=True, null=True)
+    measure = models.ManyToManyField(to=Measure)
+
+    def __str__(self):
+        return self.title
+
+
+class Monitoring(DataTimeModelMixin):
+    sensor = models.ForeignKey(to=Sensor, on_delete=models.CASCADE)
+    measure = models.ForeignKey(to=Measure, on_delete=models.CASCADE, null=True, blank=True)
+    value = models.FloatField()
+
+    def __str__(self):
+        return f'{self.sensor} ({self.measure})'

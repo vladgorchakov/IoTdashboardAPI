@@ -1,5 +1,8 @@
 from django.contrib import admin
-from dashboard.models import Measure
+from dashboard.models import Measure, Place, Sensor, Monitoring
 
-# Register your models here.
+
 admin.site.register(Measure)
+admin.site.register(Place)
+admin.site.register(Sensor)
+admin.site.register(Monitoring)
