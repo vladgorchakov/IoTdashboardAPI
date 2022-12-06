@@ -81,7 +81,7 @@ class MonitoringCreateSerializer(MonitoringListSerializer):
 
     class Meta:
         model = Monitoring
-        fields = ('user', 'sensor', 'measure', 'value')
+        fields = ('user', 'sensor', 'measure', 'value', )
 
 
 class MonitoringDetailSerializer(serializers.ModelSerializer):
