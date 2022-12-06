@@ -11,7 +11,7 @@ class DataTimeModelMixin(models.Model):
 
 
 class TitleDescriptionModelMixin(models.Model):
-    title = models.CharField(max_length=25, unique=True)
+    title = models.CharField(max_length=25)
     description = models.TextField(max_length=1000, blank=True, null=True)
 
     class Meta:
@@ -19,6 +19,8 @@ class TitleDescriptionModelMixin(models.Model):
 
 
 class Measure(TitleDescriptionModelMixin, DataTimeModelMixin):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+
     def __str__(self):
         return f'{self.title}'
 
@@ -27,7 +29,7 @@ class Place(TitleDescriptionModelMixin, DataTimeModelMixin):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return f'{self.title} - {self.user}'
 
 
 class Sensor(TitleDescriptionModelMixin, DataTimeModelMixin):
@@ -36,7 +38,7 @@ class Sensor(TitleDescriptionModelMixin, DataTimeModelMixin):
     measure = models.ManyToManyField(to=Measure)
 
     def __str__(self):
-        return self.title
+        return f'{self.title} - {self.user}'
 
 
 class Monitoring(DataTimeModelMixin):
