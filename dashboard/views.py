@@ -7,6 +7,7 @@ from dashboard.serializers import PlaceDetailSerializer, MeasureCreateSerializer
     MonitoringCreateSerializer, PlaceListSerializer, PlaceCreateSerializer, MeasureListSerializer, \
     MeasureDetailSerializer, SensorDetailSerializer, SensorCreateSerializer, MonitoringListSerializer, \
     MonitoringDetailSerializer
+from dashboard.throttles import UserMonitoringRateThrottle, UserMonitoringCreateRateThrottle
 
 
 class PlaceViewSet(viewsets.ModelViewSet):
@@ -61,6 +62,7 @@ class SensorViewSet(viewsets.ModelViewSet):
 
 
 class MonitoringViewSet(viewsets.ModelViewSet):
+    throttle_classes = [UserMonitoringRateThrottle]
 
     def get_queryset(self):
         queryset = Monitoring.objects.select_related('sensor').filter(sensor__user=self.request.user)
@@ -81,3 +83,11 @@ class MonitoringViewSet(viewsets.ModelViewSet):
             permissions.append(IsSensorOwner)
 
         return [permission() for permission in permissions]
+
+    def get_throttles(self):
+        if self.action == 'create':
+            throttle_classes = [UserMonitoringCreateRateThrottle]
+        else:
+            throttle_classes = [UserMonitoringRateThrottle]
+
+        return [throttle() for throttle in throttle_classes]
