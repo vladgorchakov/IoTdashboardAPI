@@ -1,5 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
 from dashboard.models import Place, Measure, Sensor, Monitoring
+from dashboard.permissions import IsAuthor, IsSensorOwner
 from dashboard.serializers import PlaceDetailSerializer, MeasureCreateSerializer, SensorListSerializer, \
     MonitoringCreateSerializer, PlaceListSerializer, PlaceCreateSerializer, MeasureListSerializer, \
     MeasureDetailSerializer, SensorDetailSerializer, SensorCreateSerializer, MonitoringListSerializer, \
@@ -17,6 +20,13 @@ class PlaceViewSet(viewsets.ModelViewSet):
             case 'create':
                 return PlaceCreateSerializer
         return PlaceDetailSerializer
+
+    # def get_permissions(self):
+    #     permissions = [IsAuthenticated]
+    #     if self.action in ('retrieve', 'update', 'list'):
+    #         permissions.append(IsAuthor)
+    #
+    #     return [permission() for permission in permissions]
 
 
 class MeasureViewSet(viewsets.ModelViewSet):
@@ -52,7 +62,6 @@ class SensorViewSet(viewsets.ModelViewSet):
 
 class MonitoringViewSet(viewsets.ModelViewSet):
     queryset = Monitoring.objects.order_by('-update_time')
-    serializer_class = MonitoringCreateSerializer
 
     def get_queryset(self):
         print(self.request.user)
@@ -67,3 +76,10 @@ class MonitoringViewSet(viewsets.ModelViewSet):
                 return MonitoringCreateSerializer
 
         return MonitoringDetailSerializer
+
+    def get_permissions(self):
+        permissions = [IsAuthenticated]
+        if self.action == 'create':
+            permissions.append(IsSensorOwner)
+
+        return [permission() for permission in permissions]

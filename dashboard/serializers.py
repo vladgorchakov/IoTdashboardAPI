@@ -90,4 +90,3 @@ class MonitoringDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Monitoring
         fields = '__all__'
-

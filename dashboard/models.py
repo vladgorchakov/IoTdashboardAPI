@@ -29,7 +29,7 @@ class Place(TitleDescriptionModelMixin, DataTimeModelMixin):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.title} - {self.user}'
+        return f'{self.title} - {self.user} - {self.pk}'
 
 
 class Sensor(TitleDescriptionModelMixin, DataTimeModelMixin):
@@ -38,7 +38,7 @@ class Sensor(TitleDescriptionModelMixin, DataTimeModelMixin):
     measure = models.ManyToManyField(to=Measure)
 
     def __str__(self):
-        return f'{self.title} - {self.user}'
+        return f'{self.title} - {self.user} - {self.pk}'
 
 
 class Monitoring(DataTimeModelMixin):
