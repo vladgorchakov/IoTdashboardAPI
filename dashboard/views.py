@@ -7,7 +7,7 @@ from dashboard.serializers import PlaceDetailSerializer, MeasureCreateSerializer
     MonitoringCreateSerializer, PlaceListSerializer, PlaceCreateSerializer, MeasureListSerializer, \
     MeasureDetailSerializer, SensorDetailSerializer, SensorCreateSerializer, MonitoringListSerializer, \
     MonitoringDetailSerializer
-from dashboard.throttles import UserMonitoringRateThrottle, UserMonitoringCreateRateThrottle
+from dashboard.throttls import UserMonitoringRateThrottle, UserMonitoringCreateRateThrottle
 
 
 class PlaceViewSet(viewsets.ModelViewSet):
