@@ -23,7 +23,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
     # def get_permissions(self):
     #     permissions = [IsAuthenticated]
-    #     if self.action in ('retrieve', 'update', 'list'):
+    #     if self.action in ('retrieve', 'update', 'delete'):
     #         permissions.append(IsAuthor)
     #
     #     return [permission() for permission in permissions]
@@ -61,12 +61,10 @@ class SensorViewSet(viewsets.ModelViewSet):
 
 
 class MonitoringViewSet(viewsets.ModelViewSet):
-    queryset = Monitoring.objects.order_by('-update_time')
 
     def get_queryset(self):
-        print(self.request.user)
         queryset = Monitoring.objects.select_related('sensor').filter(sensor__user=self.request.user)
-        return queryset
+        return queryset.order_by('-update_time')
 
     def get_serializer_class(self):
         match self.action:
