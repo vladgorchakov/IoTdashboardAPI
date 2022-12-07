@@ -77,16 +77,17 @@ class MonitoringListSerializer(serializers.ModelSerializer):
 
 
 class MonitoringCreateSerializer(MonitoringListSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Monitoring
-        fields = ('user', 'sensor', 'measure', 'value', )
+        fields = ('sensor', 'measure', 'value')
 
 
 class MonitoringDetailSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(slug_field='id', read_only=True)
+    # user = serializers.SlugRelatedField(slug_field='id', read_only=True)
 
     class Meta:
         model = Monitoring
         fields = '__all__'
+

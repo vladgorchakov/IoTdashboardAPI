@@ -50,10 +50,6 @@ class SensorViewSet(viewsets.ModelViewSet):
         return SensorDetailSerializer
 
 
-class MonitorinDetailSerializer:
-    pass
-
-
 class MonitoringViewSet(viewsets.ModelViewSet):
     queryset = Monitoring.objects.order_by('-update_time')
     serializer_class = MonitoringCreateSerializer
